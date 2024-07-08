@@ -1,0 +1,61 @@
+{
+  "name": "CAP_Workflow",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap-cloud-sdk/resilience": "^3.16.0",
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/hana-client": "^2.21.28",
+    "@sap/xssec": "^3",
+    "axios": "^1.7.2",
+    "cfenv": "^1.2.4",
+    "express": "^4",
+    "sap-cf-axios": "^1.0.2"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/eslint-plugin-cds": "^3",
+    "@sap/hdi-deploy": "4.9.5",
+    "@sap/ux-specification": "^1.120.14",
+    "eslint": "^9",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "undeploy": "cf undeploy CAP_Workflow --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/CAP_Workflow_1.0.0.mtar --retries 1",
+    "watch-project-workflow": "cds watch --open project-workflow/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "db": "hana",
+      "auth": {
+        "[development]": {
+          "kind": "mocked"
+        },
+        "[production]": {
+          "kind": "xsuaa"
+        }
+      },
+      "destinations": true,
+      "uaa": {
+        "kind": "xsuaa"
+      },
+      "sbpa_workflow": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "sbpa_process_automation"
+        }
+      }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+    }
+  }
+}
