@@ -6,6 +6,8 @@ sap.ui.define([
 
         return Controller.extend("projectworkflow.controller.View1", {
             onInit: function () {
+            },
+            onTriggerWorkflow() {
                 let appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
                 let appPath = appId.replaceAll(".", "/");
                 let appModulePath = jQuery.sap.getModulePath(appPath);
@@ -47,9 +49,6 @@ sap.ui.define([
                         let error = oError
                     }
                 })
-            },
-            onTriggerWorkflow() {
-
             }
         });
     });
