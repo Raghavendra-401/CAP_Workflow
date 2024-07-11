@@ -25,6 +25,7 @@ sap.ui.define([
                     async: false,
                     success(result, xhr, data) {
                         let csrfToken = data.getResponseHeader('X-CSRF-Token');
+                        console.log(csrfToken);
                         $.ajax({
                             url: `${url}/workflow-instances`,
                             type: "POST",
@@ -35,7 +36,7 @@ sap.ui.define([
                             },
                             async: false,
                             success(data) {
-                                MessageBox.information("The workflow has successfully started");
+                                new sap.m.MessageBox.information("The workflow has successfully started");
                             },
                             error: function (data) {
 
