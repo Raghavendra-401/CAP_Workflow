@@ -12,12 +12,26 @@ sap.ui.define([
                 let appPath = appId.replaceAll(".", "/");
                 let appModulePath = jQuery.sap.getModulePath(appPath);
                 let url = appModulePath + "/bpmworkflowruntime/v1";
+                let wrkflowDefID = "cap.workflow.myworkflow";
+                let BPAworkFlowID = "us10.bbfa20f5trial.sapbpalearning.accessRequestApprovalProcess"
                 let workflowStartPayload = {
-                    definitionId: "cap.workflow.myworkflow",
+                    definitionId: BPAworkFlowID,
                     context: {
                         "text": "Hello from SAPUI5"
                     }
                 }
+                let workflowStartPayloadBPA = {
+                    definitionId: BPAworkFlowID,
+                    context: {
+                        "requestorName": "Auto approval test",
+                        "sAPBuildApps": true,
+                        "sAPBuildProcessAutomation": true,
+                        "sAPBuildWorkZone": true,
+                        "sAPBusinessApplicationStudio": false,
+                        "additionalRequestorComments": "Pls approve"
+                    }
+                }
+
                 $.ajax({
                     url: `${url}/xsrf-token`,
                     method: 'GET',
@@ -31,7 +45,7 @@ sap.ui.define([
                         $.ajax({
                             url: `${url}/workflow-instances`,
                             type: "POST",
-                            data: JSON.stringify(workflowStartPayload),
+                            data: JSON.stringify(workflowStartPayloadBPA),
                             headers: {
                                 "X-CSRF-Token": csrfToken,
                                 "Content-Type": "application/json"
